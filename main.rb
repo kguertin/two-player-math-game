@@ -1,9 +1,7 @@
-require "./Players"
 require "./Game"
-require "./Turn"
 
 # Potential classes:
-# Player,  Turn, game
+# Player, Turn, game
 
 # Player will track player score.
 # Turn will track which players turn it is
@@ -19,7 +17,7 @@ require "./Turn"
 # Game Logic
 # Manage each turn with turn class. Is this better as a function that just runs within the game class?
 
-player1 = Player.new
-player2 = Player.new
 game = Game.new
-game.first_player(player1, player2)
+game.start
+game.run
+
