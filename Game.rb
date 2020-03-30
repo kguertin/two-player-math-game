@@ -1,4 +1,5 @@
 require './Players'
+require './Question'
 
 class Game
   attr_accessor :player1, :player2
@@ -6,6 +7,7 @@ class Game
   def initialize
     @player1 = Player.new("Player 1")
     @player2 = Player.new("Player 2")
+    @question = Question.new
     @current_player = ''
   end 
 
@@ -16,11 +18,14 @@ class Game
   def run
     while self.player1.score > 0 && self.player2.score > 0 do 
       puts "----- NEW TURN -----"
-      generate_question
+      @question.ask(@current_player)
+      @question.answer(@current_player)
+      puts "P1: #{self.player1.score}/3 vs P2: #{self.player2.score}/3"
       switch_player
       @current_player = set_current_player
     end
     puts "----- GAME OVER -----"
+    puts "#{@current_player.name} Wins!"
   end
 
   def first_player(player1, player2)
@@ -36,22 +41,6 @@ class Game
       return self.player2
     end 
   end
-
-  def generate_question
-    num1 = 1 + rand(20)
-    num2 = 1 + rand(20)
-    answer = num1 + num2
-    puts "#{@current_player.name}: What is #{num1} plus #{num2}?"
-    input = gets.chomp.to_i
-    
-    if input == answer
-      puts "YES! You are correct."
-    else
-      puts "Are you serious? NO!"
-      @current_player.score -= 1
-    end
-    puts "P1: #{self.player1.score}/3 vs P2: #{self.player2.score}/3"
-  end 
 
   def switch_player
     if self.player1.turn == true
